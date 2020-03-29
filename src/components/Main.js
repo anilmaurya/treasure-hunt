@@ -1,8 +1,15 @@
 import React, { Component, Fragment } from 'react';
+import styled from 'styled-components';
 
 // examples:
 import GoogleMap from './GoogleMap';
+import Layout from './Layout';
 
+const Label =  styled.label`
+  text-align: center;
+  display: block;
+  margin: 5px;
+`;
 // Re-center map when resizing the window
 const bindResizeListener = (map, maps) => {
   maps.event.addDomListenerOnce(map, 'idle', () => {
@@ -17,7 +24,6 @@ const bindResizeListener = (map, maps) => {
       .then(
         (res) => {
           if(res.result.lat){
-            console.log('adding marker')
             var marker = new maps.Marker({
               position: {lat: res.result.lat, lng: res.result.long},
               map
@@ -55,21 +61,31 @@ class Main extends Component {
 
   render() {
     return (
-      <Fragment>
-        {
-          <GoogleMap
-            defaultZoom={1}
-            defaultCenter={{
-              lat: 40.854885,
-              lng: 88.081807
-            }}
-            mapTypeId={map => map.MapTypeId.SATELLITE}
-            yesIWantToUseGoogleMapApiInternals
-            onGoogleApiLoaded={({ map, maps }) => apiIsLoaded(map, maps)}
-          >
-          </GoogleMap>
-        }
-      </Fragment>
+        <Fragment>
+          <Layout/>
+          {
+            <GoogleMap
+              defaultZoom={1}
+              defaultCenter={{
+                lat: 40.854885,
+                lng: 88.081807
+              }}
+              mapTypeId={map => map.MapTypeId.SATELLITE}
+              yesIWantToUseGoogleMapApiInternals
+              onGoogleApiLoaded={({ map, maps }) => apiIsLoaded(map, maps)}
+            >
+            </GoogleMap>
+          }
+          <Label>
+            <i> Many cultures saw me as a sign of impending death.</i>
+            <br></br>
+            <i> Buried since 1993, my location is still a mystery.</i>
+            <br></br>
+            <i>
+              2nd clue will bring you closer to me.
+            </i>
+          </Label>
+        </Fragment>
     );
   }
 }
