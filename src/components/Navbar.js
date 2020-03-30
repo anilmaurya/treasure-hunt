@@ -39,8 +39,8 @@ class Navbar extends Component {
         return (
               <List>
                  <ListItem><StyledLink to={`${defaultPath}`}>Treasure Hunt</StyledLink></ListItem>
-                 <ListItem><StyledLink to={`${defaultPath}`}about>Hall of Fame</StyledLink></ListItem>
-                 <ListItem><StyledLink to={`${defaultPath}`}about>About</StyledLink></ListItem>
+                 <ListItem><StyledLink to={`${defaultPath}hall_of_fame`}>Hall of Fame</StyledLink></ListItem>
+                 <ListItem><a href="https://github.com/anilmaurya/treasure-hunt" target="_blank">About</a></ListItem>
               </List>    
           );
     }

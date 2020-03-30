@@ -4,14 +4,16 @@ import styled from 'styled-components';
 // examples:
 import GoogleMap from './GoogleMap';
 import Layout from './Layout';
+import Modal from "../components/Modal";
 
 const Label =  styled.label`
   text-align: center;
+  font-size: larger;
   display: block;
   margin: 5px;
 `;
 // Re-center map when resizing the window
-const bindResizeListener = (map, maps) => {
+const bindResizeListener = (map, maps, _this) => {
   maps.event.addDomListenerOnce(map, 'idle', () => {
     maps.event.addDomListener(window, 'resize', () => {
       console.log(map);
@@ -30,7 +32,7 @@ const bindResizeListener = (map, maps) => {
             })
             maps.event.trigger(map,'resize')
             marker.addListener('click', function() {
-              alert('WON')
+              _this.showModal()
             });
           }
         },
@@ -42,26 +44,39 @@ const bindResizeListener = (map, maps) => {
 };
 
 // Fit map to its bounds after the api is loaded
-const apiIsLoaded = (map, maps) => {
+const apiIsLoaded = (map, maps, _this) => {
   // new maps.Marker({
   //   position: {lat: 47.07, lng: 2.08},
   //   map
   // })
-  bindResizeListener(map, maps);
+  bindResizeListener(map, maps, _this);
 };
 
 class Main extends Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      places: [],
-    };
   }
 
+  state = {
+    show: false
+  };
+
+  showModal = e => {
+    this.setState({
+      show: !this.state.show
+    });
+  };
+
+  
+
   render() {
+    const { _this } = this;
     return (
         <Fragment>
+          <Modal onClose={this.showModal} show={this.state.show}>
+            <h4>Enter your name to be part of Hall of Fame</h4>
+            <input id="name" name="name" type="text" required />
+          </Modal>
           <Layout/>
           {
             <GoogleMap
@@ -72,18 +87,16 @@ class Main extends Component {
               }}
               mapTypeId={map => map.MapTypeId.SATELLITE}
               yesIWantToUseGoogleMapApiInternals
-              onGoogleApiLoaded={({ map, maps }) => apiIsLoaded(map, maps)}
+              onGoogleApiLoaded={({ map, maps, _this }) => apiIsLoaded(map, maps, this)}
             >
             </GoogleMap>
           }
           <Label>
-            <i> Many cultures saw me as a sign of impending death.</i>
+            Many cultures saw me as a sign of impending death.
             <br></br>
-            <i> Buried since 1993, my location is still a mystery.</i>
+            Buried since 1993, my location is still a mystery.
             <br></br>
-            <i>
-              2nd clue will bring you closer to me.
-            </i>
+            2nd clue will bring you closer to me.
           </Label>
         </Fragment>
     );

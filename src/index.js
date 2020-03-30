@@ -4,6 +4,7 @@ import { Route, Switch, Redirect, BrowserRouter as Router } from 'react-router-d
 
 // examples:
 import Home from './Home';
+import HallOfFame from './HallOfFame';
 import Main from './components/Main';
 
 // styles
@@ -23,7 +24,8 @@ ReactDOM.render(
       <Switch>
         <Route exact path={defaultPath} component={Home} />
         {/* New examples here */}
-        <Route path={`${defaultPath}default`} component={Main} />
+        <Route path={`${defaultPath}puzzle`} component={Main} />
+        <Route path={`${defaultPath}hall_of_fame`} component={HallOfFame} />
         <Redirect exact from="*" to={defaultPath} />
       </Switch>
     </App>

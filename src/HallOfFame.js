@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Layout from './components/Layout';
@@ -17,6 +17,7 @@ const List = styled.ul`
   border: 1px solid #d8d8d8;
   list-style: none;
   text-align: left;
+  font-size: 24px;
 `;
 
 const ListItem = styled.li`
@@ -26,7 +27,6 @@ const ListItem = styled.li`
   width: 100%;
   background: #fff;
   border-bottom: 1px solid #7f7f7f;
-  cursor: pointer;
 
   &:last-child {
     border-bottom: none;
@@ -43,19 +43,40 @@ const StyledLink = styled(Link)`
 
 const defaultPath = process.env.REACT_APP_BASE_PATH;
 
-const Home = () => (
-  <div>
-  <Layout/>
-  <Wrapper>
-    
-    <h1>Active Treasure Hunt</h1>
-    <List>
-      <ListItem>
-        <StyledLink to={`${defaultPath}puzzle`}>Puzzle 1</StyledLink>
-      </ListItem>
-    </List>
-  </Wrapper>
-  </div>
-);
+class HallOfFame extends Component {
 
-export default Home;
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      winners: [],
+    };
+  }
+
+  componentDidMount() {
+    fetch(process.env.REACT_APP_API_BASE_URL + '/winners')
+      .then(response => response.json())
+      .then(data => this.setState({ winners: data.result }));
+  }
+  
+  render() {
+    const { winners } = this.state;
+    return (
+      <Fragment>
+      <Layout/>
+      <Wrapper>
+        <h1>Hall of Fame</h1>
+        <List>
+          {winners.map(winner => (
+          <ListItem>
+            {winner["name"]}
+          </ListItem>
+          ))}
+        </List>
+      </Wrapper>
+    </Fragment>
+    )
+  }
+}
+
+export default HallOfFame;
