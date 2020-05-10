@@ -10,27 +10,18 @@ const Wrapper = styled.div`
 `;
 
 const List = styled.ul`
-  display: flex;
-  flex-direction: column;
-  width: 500px;
-  padding: 15px;
-  border: 1px solid #d8d8d8;
-  list-style: none;
-  text-align: left;
-  font-size: 24px;
+width: 760px;
+margin-bottom: 20px;
+overflow: hidden;
+border-top: 1px solid #ccc;
 `;
 
 const ListItem = styled.li`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  background: #fff;
-  border-bottom: 1px solid #7f7f7f;
-
-  &:last-child {
-    border-bottom: none;
-  }
+line-height: 1.5em;
+border-bottom: 1px solid #ccc;
+float: left;
+display: inline;
+width: 50%;
 `;
 
 const StyledLink = styled(Link)`
@@ -68,9 +59,14 @@ class HallOfFame extends Component {
         <h1>Hall of Fame</h1>
         <List>
           {winners.map(winner => (
+            <div>
           <ListItem>
             {winner["name"]}
           </ListItem>
+          <ListItem>
+          {winner["puzzle_name"] || " - "}
+          </ListItem>
+          </div>
           ))}
         </List>
       </Wrapper>

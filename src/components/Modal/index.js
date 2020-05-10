@@ -12,6 +12,8 @@ export default class Modal extends React.Component {
     event.preventDefault();
     const data = new FormData(event.target);
     
+    data.append('puzzle_id', this.props.puzzle_id)
+  
     fetch(process.env.REACT_APP_API_BASE_URL + '/winners', {
       method: 'POST',
       body: data,

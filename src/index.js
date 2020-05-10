@@ -24,7 +24,7 @@ ReactDOM.render(
       <Switch>
         <Route exact path={defaultPath} component={Home} />
         {/* New examples here */}
-        <Route path={`${defaultPath}puzzle`} component={Main} />
+        <Route path={`${defaultPath}puzzle/:id`} component={Main} />
         <Route path={`${defaultPath}hall_of_fame`} component={HallOfFame} />
         <Redirect exact from="*" to={defaultPath} />
       </Switch>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Layout from './components/Layout';
@@ -43,19 +43,42 @@ const StyledLink = styled(Link)`
 
 const defaultPath = process.env.REACT_APP_BASE_PATH;
 
-const Home = () => (
-  <div>
-  <Layout/>
-  <Wrapper>
-    
-    <h1>Active Treasure Hunt</h1>
-    <List>
-      <ListItem>
-        <StyledLink to={`${defaultPath}puzzle`}>Puzzle 1</StyledLink>
-      </ListItem>
-    </List>
-  </Wrapper>
-  </div>
-);
+
+
+class Home extends Component {
+
+    constructor(props) {
+      super(props);
+  
+      this.state = {
+        puzzles: [],
+      };
+    }
+
+    componentDidMount() {
+      fetch(process.env.REACT_APP_API_BASE_URL + '/puzzles')
+        .then(response => response.json())
+        .then(data => this.setState({ puzzles: data.result }));
+    }
+
+    render() {
+      return (
+        <div>
+          <Layout/>
+          <Wrapper>
+            
+            <h1>Active Treasure Hunt</h1>
+            <List>
+            {this.state.puzzles.map(puzzle => (
+              <ListItem>
+                <StyledLink to={`${defaultPath}puzzle/${puzzle}`}>Puzzle {puzzle}</StyledLink>
+              </ListItem>
+            ))}
+            </List>
+          </Wrapper>
+        </div>
+      )
+    }
+}
 
 export default Home;

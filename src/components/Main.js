@@ -6,11 +6,9 @@ import GoogleMap from './GoogleMap';
 import Layout from './Layout';
 import Modal from "../components/Modal";
 
-const Label =  styled.label`
+const Div =  styled.div`
   text-align: center;
-  font-size: larger;
   display: block;
-  margin: 5px;
 `;
 // Re-center map when resizing the window
 const bindResizeListener = (map, maps, _this) => {
@@ -21,7 +19,7 @@ const bindResizeListener = (map, maps, _this) => {
   });
 
   maps.event.addListener(map, 'idle', function() {
-    fetch(process.env.REACT_APP_API_BASE_URL + '/hunt?coordinates=' + map.getBounds().toUrlValue()+ '&zoom=' + map.zoom)
+    fetch(process.env.REACT_APP_API_BASE_URL + '/hunt?coordinates=' + map.getBounds().toUrlValue()+ '&zoom=' + map.zoom + '&puzzle_id=' + _this.state.puzzle_id)
       .then(res => res.json())
       .then(
         (res) => {
@@ -58,7 +56,9 @@ class Main extends Component {
   }
 
   state = {
-    show: false
+    show: false,
+    puzzle_id: this.props.match.params.id,
+    description: ''
   };
 
   showModal = e => {
@@ -67,13 +67,17 @@ class Main extends Component {
     });
   };
 
-  
+  componentDidMount() {
+    fetch(process.env.REACT_APP_API_BASE_URL + '/puzzles/' + this.state.puzzle_id)
+      .then(response => response.json())
+      .then(data => this.setState({ description: data.result.description }));
+  }
 
   render() {
     const { _this } = this;
     return (
         <Fragment>
-          <Modal onClose={this.showModal} show={this.state.show}>
+          <Modal onClose={this.showModal} show={this.state.show} puzzle_id={this.state.puzzle_id}>
             <h4>Enter your name to be part of Hall of Fame</h4>
             <input id="name" name="name" type="text" required />
           </Modal>
@@ -91,13 +95,7 @@ class Main extends Component {
             >
             </GoogleMap>
           }
-          <Label>
-            Many cultures saw me as a sign of impending death.
-            <br></br>
-            Buried since 1993, my location is still a mystery.
-            <br></br>
-            2nd clue will bring you closer to me.
-          </Label>
+            <Div dangerouslySetInnerHTML={{ __html: this.state.description}} />
         </Fragment>
     );
   }
