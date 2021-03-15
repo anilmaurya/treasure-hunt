@@ -35,15 +35,16 @@ const StyledLink = styled(Link)`
 const defaultPath = process.env.REACT_APP_BASE_PATH;
 
 class Navbar extends Component {
-    render() {
-        return (
-              <List>
-                 <ListItem><StyledLink to={`${defaultPath}`}>Treasure Hunt</StyledLink></ListItem>
-                 <ListItem><StyledLink to={`${defaultPath}hall_of_fame`}>Hall of Fame</StyledLink></ListItem>
-                 <ListItem><a href="https://github.com/anilmaurya/treasure-hunt" target="_blank">About</a></ListItem>
-              </List>    
-          );
-    }
+  render() {
+    return (
+      <List>
+        <ListItem><StyledLink to={`${defaultPath}`}>Treasure Hunt</StyledLink></ListItem>
+        <ListItem><StyledLink to={`${defaultPath}hall_of_fame`}>Hall of Fame</StyledLink></ListItem>
+        <ListItem><a class="button" href="#popup1">How to Play</a></ListItem>
+        <ListItem><a href="https://github.com/anilmaurya/treasure-hunt" target="_blank">About</a></ListItem>
+      </List>
+    );
+  }
 }
 
 export default Navbar;
